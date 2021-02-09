@@ -5,16 +5,35 @@ const json = require('koa-json')
 const onerror = require('koa-onerror')
 const bodyparser = require('koa-bodyparser')
 const logger = require('koa-logger')
+const jwtKoa = require('koa-jwt')
 
 const index = require('./routes/index')
 const usersRouter = require('./routes/users')
 
+const { JWT_SECRET_KEY } = require('./config/secretKeys')
+const { catchJwtError } = require('./middlewares/jwtVerify')
+
 // error handler
 onerror(app)
 
+// jwt 401 错误处理
+app.use(catchJwtError)
+
+app.use(jwtKoa({
+  secret: JWT_SECRET_KEY
+}).unless({
+  // login/register 接口不需要认证
+  path: [
+    /^\/users\/login/,
+    /^\/users\/register/
+  ]
+})
+)
+
+
 // middlewares
 app.use(bodyparser({
-  enableTypes:['json', 'form', 'text']
+  enableTypes: ['json', 'form', 'text']
 }))
 app.use(json())
 app.use(logger())

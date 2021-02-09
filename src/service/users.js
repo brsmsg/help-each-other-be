@@ -5,20 +5,20 @@ const { User } = require('../db/model/index');
  * @param {string} username 
  * @param {string} password 
  */
-const getUserInfo = async (username, phone, password) => {
+const getUserInfo = async (username, password) => {
   const whereOpt = {
     username
   }
-  if (phone) {
-    Object.assign(whereOpt, { phone })
-  }
+  // if (phone) {
+  //   Object.assign(whereOpt, { phone })
+  // }
   if (password) {
     Object.assign(whereOpt, { password });
   }
 
   // query
   const result = await User.findOne({
-    attributes: ['id', 'username', 'password', 'gender', 'avatar', 'category', 'location'],
+    attributes: ['id', 'username',  'gender', 'avatar', 'category', 'location'],
     where: whereOpt
   })
 
@@ -36,11 +36,10 @@ const getUserInfo = async (username, phone, password) => {
  * 。。。
  */
 const createUser = async (userObj) => {
-
   const result = await User.create(userObj)
-
   return result.dataValues;
 }
+
 
 module.exports = {
   getUserInfo,
