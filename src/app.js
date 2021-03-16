@@ -9,26 +9,42 @@ const jwtKoa = require('koa-jwt')
 
 const index = require('./routes/index')
 const usersRouter = require('./routes/users')
+const postRouter = require('./routes/posts');
 
-const { JWT_SECRET_KEY } = require('./config/secretKeys')
-const { catchJwtError } = require('./middlewares/jwtVerify')
+const {
+  JWT_SECRET_KEY
+} = require('./config/secretKeys')
+const {
+  catchJwtError
+} = require('./middlewares/jwtVerify')
 
 // error handler
 onerror(app)
 
+// koa跨域
+app.use(async (ctx, next) => {
+  ctx.set('Access-Control-Allow-Origin', '*');
+  ctx.set('Access-Control-Allow-Headers', 'Content-Type, Content-Length, Authorization, Accept, X-Requested-With , yourHeaderFeild');
+  ctx.set('Access-Control-Allow-Methods', 'PUT, POST, GET, DELETE, OPTIONS');
+  if (ctx.method == 'OPTIONS') {
+    ctx.body = 200;
+  } else {
+    await next();
+  }
+})
+
 // jwt 401 错误处理
 app.use(catchJwtError)
 
-app.use(jwtKoa({
-  secret: JWT_SECRET_KEY
-}).unless({
-  // login/register 接口不需要认证
-  path: [
-    /^\/users\/login/,
-    /^\/users\/register/
-  ]
-})
-)
+// app.use(jwtKoa({
+//   secret: JWT_SECRET_KEY
+// }).unless({
+//   // login/register 接口不需要认证
+//   path: [
+//     /^\/users\/login/,
+//     /^\/users\/register/
+//   ]
+// }))
 
 
 // middlewares
@@ -52,8 +68,9 @@ app.use(async (ctx, next) => {
 })
 
 // routes
-app.use(index.routes(), index.allowedMethods())
-app.use(usersRouter.routes(), usersRouter.allowedMethods())
+app.use(index.routes(), index.allowedMethods());
+app.use(usersRouter.routes(), usersRouter.allowedMethods());
+app.use(postRouter.routes(), postRouter.allowedMethods());
 
 // error-handling
 app.on('error', (err, ctx) => {

@@ -3,7 +3,9 @@
  */
 
 const User = require('../model/User');
+const Post = require('../model/Post');
 
 module.exports = {
-  User
+  User,
+  Post
 }

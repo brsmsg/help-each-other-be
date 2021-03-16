@@ -1,4 +1,6 @@
-const { User } = require('../db/model/index');
+const {
+  User
+} = require('../db/model/index');
 
 /**
  * 获取用户信息
@@ -13,12 +15,14 @@ const getUserInfo = async (username, password) => {
   //   Object.assign(whereOpt, { phone })
   // }
   if (password) {
-    Object.assign(whereOpt, { password });
+    Object.assign(whereOpt, {
+      password
+    });
   }
 
   // query
   const result = await User.findOne({
-    attributes: ['id', 'username',  'gender', 'avatar', 'category', 'location'],
+    attributes: ['id', 'username', 'gender', 'avatar', 'category', 'location'],
     where: whereOpt
   })
 
