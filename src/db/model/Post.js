@@ -4,7 +4,8 @@ const {
   INTEGER,
   TEXT,
   FLOAT
-} = require('../types')
+} = require('../types');
+const User = require('./User');
 
 const Post = seq.define('post', {
   title: {
@@ -30,7 +31,15 @@ const Post = seq.define('post', {
   reward: {
     type: FLOAT,
     comment: '报酬'
+  },
+  tag: {
+    type: STRING,
+    comment: '类型'
   }
+})
+
+Post.belongsTo(User, {
+  foreignKey: 'creator_id'
 })
 
 module.exports = Post;

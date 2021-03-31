@@ -1,7 +1,19 @@
-const { SuccessModel, ErrorModel } = require('../model/ResModel')
-const { getUserInfo, createUser } = require('../service/users')
-const { registerUserNameExistInfo, registerFailInfo, loginFailInfo } = require('../model/ErrorInfo')
-const { doCrypto } = require('../utils/crypt')
+const {
+  SuccessModel,
+  ErrorModel
+} = require('../model/ResModel')
+const {
+  getUserInfo,
+  createUser
+} = require('../service/users')
+const {
+  registerUserNameExistInfo,
+  registerFailInfo,
+  loginFailInfo
+} = require('../model/ErrorInfo')
+const {
+  doCrypto
+} = require('../utils/crypt')
 
 /**
  * 用户名是否存在
@@ -23,7 +35,9 @@ const isExist = async (username) => {
  * @param {object} userObj 用户信息对象 
  */
 const register = async (userObj) => {
-  const { username } = userObj
+  const {
+    username
+  } = userObj
   const userInfo = await getUserInfo(username);
   if (userInfo) {
     // 用户名已经存在
@@ -45,7 +59,10 @@ const register = async (userObj) => {
  * @param {string} username 
  * @param {string} pwd 
  */
-const login = async ({ username, password }) => {
+const login = async ({
+  username,
+  password
+}) => {
   const cryptedPwd = doCrypto(password)
   const userInfo = await getUserInfo(username, cryptedPwd);
   if (!userInfo) {
@@ -54,9 +71,22 @@ const login = async ({ username, password }) => {
   return new SuccessModel(userInfo);
 }
 
+const getUserStat = async (userId) => {
+  const userStat = {
+    location: '武汉理工大学',
+    postCount: 12,
+    helpCount: 20
+  }
+  if (userStat) {
+    return new SuccessModel(userStat);
+  }
+  return new ErrorModel(123);
+}
+
 
 module.exports = {
   isExist,
   register,
-  login
+  login,
+  getUserStat
 }

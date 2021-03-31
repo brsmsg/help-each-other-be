@@ -18,5 +18,9 @@ module.exports = {
   loginFailInfo: {
     errno: 10004,
     message: '用户名或密码错误'
+  },
+  getPostFailInfo: {
+    errno: 10005,
+    message: '该文章不存在'
   }
 }
