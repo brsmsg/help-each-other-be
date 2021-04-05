@@ -8,13 +8,19 @@ const {
 
 const {
   applyRequest,
-  requestStatus
+  requestStatus,
+  getAcceptNum
 } = require('../controller/request');
 
 router.prefix('/post')
 
 router.get('/', async (ctx, next) => {
-  ctx.body = await fetchPosts();
+  // const filter = {
+  //   tag: 'express'
+  // }
+  const filter = ctx.request.query;
+  console.log("params", filter);
+  ctx.body = await fetchPosts(filter);
 })
 
 router.get('/:id', async (ctx, next) => {
@@ -45,6 +51,11 @@ router.post('/newPost', async (ctx, next) => {
   const res = ctx.request.body;
   ctx.body = await newPost(res);
 
+})
+
+router.get('/membersNum/:id', async (ctx, next) => {
+  const postId = ctx.params.id;
+  ctx.body = await getAcceptNum(postId);
 })
 
 module.exports = router;

@@ -35,6 +35,14 @@ const Post = seq.define('post', {
   tag: {
     type: STRING,
     comment: '类型'
+  },
+  views: {
+    type: INTEGER,
+    comment: '浏览量'
+  },
+  maxMembers: {
+    type: INTEGER,
+    comment: '最大参与人数'
   }
 })
 

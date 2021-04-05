@@ -1,4 +1,7 @@
 const {
+  tagEnum
+} = require('../config/constants');
+const {
   Post,
   User
 } = require('../db/model');
@@ -16,8 +19,24 @@ const getPosts = async (filter) => {
       attributes: ['id', 'username']
     }]
   }
-  if (!filter) {
+  if (Object.keys(filter).length === 0) {
     result = await Post.findAll(queryConfig);
+  } else {
+    const {
+      type,
+      tag
+    } = filter;
+    const whereOpt = {
+      tag: tagEnum[tag]
+    }
+    Object.assign(queryConfig, {
+      where: whereOpt
+    });
+    try {
+      result = await Post.findAll(queryConfig);
+    } catch (e) {
+      console.log(e)
+    }
   }
   if (result == null) return result;
   const res = result.map((item) => {
@@ -55,14 +74,14 @@ const createPost = async (post) => {
     images,
     creator
   } = post
-  console.log("post", post);
   const result = await Post.create({
     title,
     tag,
     content,
     reward,
     images: images ? images.join('&') : null,
-    creator_id: creator
+    creator_id: creator,
+    views: 0
   })
   if (!result) return result;
   console.log(result.dataValues);

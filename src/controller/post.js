@@ -11,10 +11,25 @@ const {
 } = require("../service/post")
 const {
   getPostFailInfo
-} = require("../model/ErrorInfo")
+} = require("../model/ErrorInfo");
+const {
+  getRequestsNum
+} = require('../service/request')
 
-const fetchPosts = async () => {
-  const posts = await getPosts();
+const fetchPosts = async (filter) => {
+  const posts = await getPosts(filter);
+  const accPromiseList = [];
+  const accPromise = async (post) => {
+    console.log(post.id)
+    const accNum = await getRequestsNum(post.id);
+    Object.assign(post, {
+      accNum
+    });
+  }
+  posts.forEach((post) => {
+    accPromiseList.push(accPromise(post));
+  })
+  await Promise.all(accPromiseList);
   return new SuccessModel(posts);
 }
 

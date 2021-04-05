@@ -4,7 +4,8 @@ const {
 } = require("../model/ResModel");
 const {
   addRequest,
-  getStatus
+  getStatus,
+  getRequestsNum
 } = require('../service/request')
 
 const applyRequest = async (postId, applyBody) => {
@@ -34,7 +35,16 @@ const requestStatus = async ({
   return new ErrorModel("查询错误");
 }
 
+const getAcceptNum = async (postId) => {
+  const num = await getRequestsNum(postId);
+  if (num) {
+    return new SuccessModel(num);
+  }
+  return new ErrorModel('查询错误');
+}
+
 module.exports = {
   applyRequest,
-  requestStatus
+  requestStatus,
+  getAcceptNum
 }

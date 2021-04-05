@@ -33,8 +33,20 @@ const getStatus = async ({
   return result.dataValues;
 }
 
+const getRequestsNum = async (postId) => {
+  const queryConfig = {
+    where: {
+      post_id: postId,
+      is_accept: 1
+    }
+  }
+  const result = await Request.findAll(queryConfig);
+  if (!result) return 0;
+  else return result.length;
+}
 
 module.exports = {
   addRequest,
-  getStatus
+  getStatus,
+  getRequestsNum
 }
