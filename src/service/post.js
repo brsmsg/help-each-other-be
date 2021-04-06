@@ -84,12 +84,22 @@ const createPost = async (post) => {
     views: 0
   })
   if (!result) return result;
-  console.log(result.dataValues);
   return result.dataValues;
+}
+
+const countPost = async (userId) => {
+  const res = await Post.findAll({
+    where: {
+      creator_id: userId
+    }
+  })
+  if (!res) return 0;
+  return res.length;
 }
 
 module.exports = {
   getPosts,
   getSinglePost,
-  createPost
+  createPost,
+  countPost
 }

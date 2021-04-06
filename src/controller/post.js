@@ -20,7 +20,6 @@ const fetchPosts = async (filter) => {
   const posts = await getPosts(filter);
   const accPromiseList = [];
   const accPromise = async (post) => {
-    console.log(post.id)
     const accNum = await getRequestsNum(post.id);
     Object.assign(post, {
       accNum
@@ -44,7 +43,6 @@ const fetchSinglePost = async (postId) => {
 
 const saveImage = async (file) => {
   const dirname = path.resolve(__dirname, '../public/uploads');
-  console.log("file", file);
   const reader = fs.createReadStream(file.path);
   const writer = fs.createWriteStream(path.join(dirname, file.name));
   // 管道
@@ -54,7 +52,6 @@ const saveImage = async (file) => {
 }
 
 const newPost = async (postBody) => {
-  console.log(postBody);
   const post = await createPost(postBody);
   if (post) {
     return new SuccessModel(post);

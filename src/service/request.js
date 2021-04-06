@@ -37,7 +37,7 @@ const getRequestsNum = async (postId) => {
   const queryConfig = {
     where: {
       post_id: postId,
-      is_accept: 1
+      is_accept: true
     }
   }
   const result = await Request.findAll(queryConfig);
@@ -45,8 +45,21 @@ const getRequestsNum = async (postId) => {
   else return result.length;
 }
 
+const countHelp = async (userId) => {
+  const result = await Request.findAll({
+    where: {
+      applicant_id: userId,
+      is_accept: true
+    }
+  })
+  if (!result) return 0;
+  else return result.length;
+}
+
+
 module.exports = {
   addRequest,
   getStatus,
-  getRequestsNum
+  getRequestsNum,
+  countHelp
 }

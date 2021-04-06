@@ -14,6 +14,12 @@ const {
 const {
   doCrypto
 } = require('../utils/crypt')
+const {
+  countPost
+} = require('../service/post');
+const {
+  countHelp
+} = require('../service/request')
 
 /**
  * 用户名是否存在
@@ -72,13 +78,14 @@ const login = async ({
 }
 
 const getUserStat = async (userId) => {
-  const userStat = {
-    location: '武汉理工大学',
-    postCount: 12,
-    helpCount: 20
-  }
-  if (userStat) {
-    return new SuccessModel(userStat);
+
+  const postNum = await countPost(userId);
+  const helpNum = await countHelp(userId);
+  if (postNum && helpNum) {
+    return new SuccessModel({
+      postNum,
+      helpNum
+    });
   }
   return new ErrorModel(123);
 }

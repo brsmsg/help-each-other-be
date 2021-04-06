@@ -61,7 +61,9 @@ router.post('/login', async (ctx, next) => {
 
 router.get('/userStat/:id', async (ctx, next) => {
   const userId = ctx.params.id;
+
   ctx.body = await getUserStat(userId);
 })
+
 
 module.exports = router;

@@ -9,7 +9,6 @@ const {
 } = require('../service/request')
 
 const applyRequest = async (postId, applyBody) => {
-  console.log(applyBody)
   const request = await addRequest({
     postId,
     ...applyBody
