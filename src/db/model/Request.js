@@ -23,8 +23,8 @@ const Request = seq.define('request', {
     comments: '备注'
   },
   is_accept: {
-    type: BOOLEAN,
-    comments: '申请是否通过'
+    type: INTEGER,
+    comments: '申请是否通过 0申请中 1通过 2拒绝'
   }
 })
 

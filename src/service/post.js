@@ -72,7 +72,8 @@ const createPost = async (post) => {
     content,
     reward,
     images,
-    creator
+    creator,
+    maxMembers
   } = post
   const result = await Post.create({
     title,
@@ -81,7 +82,8 @@ const createPost = async (post) => {
     reward,
     images: images ? images.join('&') : null,
     creator_id: creator,
-    views: 0
+    views: 0,
+    maxMembers
   })
   if (!result) return result;
   return result.dataValues;

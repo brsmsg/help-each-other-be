@@ -1,5 +1,6 @@
 const {
-  Request
+  Request,
+  User
 } = require('../db/model')
 
 const addRequest = async ({
@@ -49,17 +50,31 @@ const countHelp = async (userId) => {
   const result = await Request.findAll({
     where: {
       applicant_id: userId,
-      is_accept: true
+      is_accept: 0
     }
   })
   if (!result) return 0;
   else return result.length;
 }
 
+const getAllRequest = async (postId) => {
+  const result = await Request.findAll({
+    where: {
+      post_id: postId
+    },
+    include: [{
+      model: User,
+      attributes: ['id', 'username', 'avatar']
+    }]
+  })
+  if (!result) return result;
+  return result.map((item) => item.dataValues);
+}
 
 module.exports = {
   addRequest,
   getStatus,
   getRequestsNum,
-  countHelp
+  countHelp,
+  getAllRequest
 }

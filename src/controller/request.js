@@ -5,7 +5,8 @@ const {
 const {
   addRequest,
   getStatus,
-  getRequestsNum
+  getRequestsNum,
+  getAllRequest
 } = require('../service/request')
 
 const applyRequest = async (postId, applyBody) => {
@@ -42,8 +43,17 @@ const getAcceptNum = async (postId) => {
   return new ErrorModel('查询错误');
 }
 
+const getApplyList = async (postId) => {
+  const result = await getAllRequest(postId);
+  if (result) {
+    return new SuccessModel(result);
+  }
+  return new ErrorModel('获取列表错误')
+}
+
 module.exports = {
   applyRequest,
   requestStatus,
-  getAcceptNum
+  getAcceptNum,
+  getApplyList
 }
