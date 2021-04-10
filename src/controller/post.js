@@ -25,6 +25,7 @@ const fetchPosts = async (filter) => {
       accNum
     });
   }
+  if (!posts) return new ErrorModel("查询失败")
   posts.forEach((post) => {
     accPromiseList.push(accPromise(post));
   })

@@ -75,7 +75,6 @@ const changeStatus = async ({
   requestId,
   action
 }) => {
-  console.log(requestId, action)
   const result = await Request.update({
     is_accept: action === 'approve' ? 1 : 2
   }, {

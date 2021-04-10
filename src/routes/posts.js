@@ -17,9 +17,6 @@ const {
 router.prefix('/post')
 
 router.get('/', async (ctx, next) => {
-  // const filter = {
-  //   tag: 'express'
-  // }
   const filter = ctx.request.query;
   console.log("params", filter);
   ctx.body = await fetchPosts(filter);

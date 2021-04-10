@@ -24,7 +24,7 @@ const Request = seq.define('request', {
   },
   is_accept: {
     type: INTEGER,
-    comment: '申请是否通过 0申请中 1通过 2拒绝'
+    comment: '申请是否通过 0申请中 1通过 2拒绝 3已完成'
   }
 })
 

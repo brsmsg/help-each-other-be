@@ -24,10 +24,19 @@ const getPosts = async (filter) => {
   } else {
     const {
       type,
-      tag
+      tag,
+      userId
     } = filter;
-    const whereOpt = {
-      tag: tagEnum[tag]
+    const whereOpt = {}
+    if (tag) {
+      Object.assign(whereOpt, {
+        tag: tagEnum[tag],
+      })
+    }
+    if (userId) {
+      Object.assign(whereOpt, {
+        creator_id: userId
+      })
     }
     Object.assign(queryConfig, {
       where: whereOpt
