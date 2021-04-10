@@ -10,7 +10,8 @@ const {
   applyRequest,
   requestStatus,
   getAcceptNum,
-  getApplyList
+  getApplyList,
+  handleApply
 } = require('../controller/request');
 
 router.prefix('/post')
@@ -62,6 +63,11 @@ router.get('/membersNum/:id', async (ctx, next) => {
 router.get('/apply/list/:id', async (ctx, next) => {
   const postId = ctx.params.id;
   ctx.body = await getApplyList(postId);
+})
+
+router.post('/changeStatus', async (ctx, next) => {
+  const res = ctx.request.body;
+  ctx.body = await handleApply(res)
 })
 
 module.exports = router;

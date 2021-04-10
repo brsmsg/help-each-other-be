@@ -71,10 +71,26 @@ const getAllRequest = async (postId) => {
   return result.map((item) => item.dataValues);
 }
 
+const changeStatus = async ({
+  requestId,
+  action
+}) => {
+  console.log(requestId, action)
+  const result = await Request.update({
+    is_accept: action === 'approve' ? 1 : 2
+  }, {
+    where: {
+      id: requestId
+    }
+  })
+  return result;
+}
+
 module.exports = {
   addRequest,
   getStatus,
   getRequestsNum,
   countHelp,
-  getAllRequest
+  getAllRequest,
+  changeStatus
 }
