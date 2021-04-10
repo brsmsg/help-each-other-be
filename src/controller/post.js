@@ -7,7 +7,8 @@ const {
 const {
   getPosts,
   getSinglePost,
-  createPost
+  createPost,
+  addViews
 } = require("../service/post")
 const {
   getPostFailInfo
@@ -61,9 +62,16 @@ const newPost = async (postBody) => {
   }
 }
 
+const addViewNum = async (postId) => {
+  const result = await addViews(postId);
+  if (result) return new SuccessModel;
+  return new ErrorModel('error')
+}
+
 module.exports = {
   fetchPosts,
   fetchSinglePost,
   saveImage,
-  newPost
+  newPost,
+  addViewNum
 }

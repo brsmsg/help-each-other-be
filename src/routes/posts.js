@@ -3,7 +3,8 @@ const {
   fetchPosts,
   fetchSinglePost,
   saveImage,
-  newPost
+  newPost,
+  addViewNum
 } = require('../controller/post');
 
 const {
@@ -65,6 +66,11 @@ router.get('/apply/list/:id', async (ctx, next) => {
 router.post('/changeStatus', async (ctx, next) => {
   const res = ctx.request.body;
   ctx.body = await handleApply(res)
+})
+
+router.get('/addViewNum/:id', async (ctx, next) => {
+  const postId = ctx.params.id;
+  ctx.body = await addViewNum(postId);
 })
 
 module.exports = router;

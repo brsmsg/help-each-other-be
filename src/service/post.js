@@ -108,9 +108,20 @@ const countPost = async (userId) => {
   return res.length;
 }
 
+const addViews = async (postId) => {
+  const res = await Post.increment({
+    views: 1
+  }, {
+    where: {
+      id: postId
+    }
+  })
+}
+
 module.exports = {
   getPosts,
   getSinglePost,
   createPost,
-  countPost
+  countPost,
+  addViews
 }
