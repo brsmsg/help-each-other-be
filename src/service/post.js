@@ -25,7 +25,7 @@ const getPosts = async (filter) => {
     const {
       type,
       tag,
-      userId
+      userId,
     } = filter;
     const whereOpt = {}
     if (tag) {
@@ -36,6 +36,19 @@ const getPosts = async (filter) => {
     if (userId) {
       Object.assign(whereOpt, {
         creator_id: userId
+      })
+    }
+    if (type === 'popular') {
+      Object.assign(queryConfig, {
+        order: [
+          ['views', 'DESC']
+        ]
+      })
+    } else if (type === 'newest') {
+      Object.assign(queryConfig, {
+        order: [
+          ['createdAt', 'DESC']
+        ]
       })
     }
     Object.assign(queryConfig, {
@@ -61,7 +74,7 @@ const getSinglePost = async (postId) => {
   const queryConfig = {
     include: [{
       model: User,
-      attributes: ['id', 'username']
+      attributes: ['id', 'username', 'location']
     }],
     where: {
       id: postId
