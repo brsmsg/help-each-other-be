@@ -44,8 +44,23 @@ const createUser = async (userObj) => {
   return result.dataValues;
 }
 
+const updateUser = async (body) => {
+  const {
+    id,
+    data
+  } = body;
+  console.log("data", data)
+  console.log("id", id)
+  const res = await User.update(data, {
+    where: {
+      id
+    }
+  })
+  return res;
+}
 
 module.exports = {
   getUserInfo,
-  createUser
+  createUser,
+  updateUser
 }

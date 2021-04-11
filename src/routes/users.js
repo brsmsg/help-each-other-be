@@ -2,7 +2,9 @@ const {
   isExist,
   register,
   login,
-  getUserStat
+  getUserStat,
+  saveImage,
+  updateProfile
 } = require('../controller/users')
 const {
   JWT_SECRET_KEY
@@ -63,6 +65,19 @@ router.get('/userStat/:id', async (ctx, next) => {
   const userId = ctx.params.id;
 
   ctx.body = await getUserStat(userId);
+})
+
+
+router.post('/uploadAvatar', async (ctx, next) => {
+  const file = ctx.request.files.file;
+  // console.log(ctx.request.files);
+  // console.log("file", file);
+  ctx.body = await saveImage(file);
+})
+
+router.post('/update', async (ctx, next) => {
+  const data = ctx.request.body;
+  ctx.body = await updateProfile(data);
 })
 
 

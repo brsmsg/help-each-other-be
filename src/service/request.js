@@ -91,5 +91,5 @@ module.exports = {
   getRequestsNum,
   countHelp,
   getAllRequest,
-  changeStatus
+  changeStatus,
 }

@@ -1,10 +1,13 @@
+const path = require('path');
+const fs = require('fs');
 const {
   SuccessModel,
   ErrorModel
 } = require('../model/ResModel')
 const {
   getUserInfo,
-  createUser
+  createUser,
+  updateUser
 } = require('../service/users')
 const {
   registerUserNameExistInfo,
@@ -81,7 +84,7 @@ const getUserStat = async (userId) => {
 
   const postNum = await countPost(userId);
   const helpNum = await countHelp(userId);
-  if (postNum && helpNum) {
+  if (postNum != undefined && helpNum != undefined) {
     return new SuccessModel({
       postNum,
       helpNum
@@ -90,10 +93,28 @@ const getUserStat = async (userId) => {
   return new ErrorModel(123);
 }
 
+const saveImage = async (file) => {
+  const dirname = path.resolve(__dirname, '../public/uploads/avatar');
+  const reader = fs.createReadStream(file.path);
+  const writer = fs.createWriteStream(path.join(dirname, file.name));
+  // 管道
+  reader.pipe(writer);
+
+  return new SuccessModel(`/uploads/avatar/${file.name}`);
+}
+
+const updateProfile = async (data) => {
+  const result = await updateUser(data);
+  console.log(result);
+  if (result[0] === 1) return new SuccessModel("success")
+  else return new ErrorModel("更新失败")
+}
 
 module.exports = {
   isExist,
   register,
   login,
-  getUserStat
+  getUserStat,
+  saveImage,
+  updateProfile
 }
