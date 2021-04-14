@@ -5,9 +5,11 @@
 const User = require('../model/User');
 const Post = require('../model/Post');
 const Request = require('../model/Request');
+const Message = require('../model/Message')
 
 module.exports = {
   User,
   Post,
-  Request
+  Request,
+  Message
 }

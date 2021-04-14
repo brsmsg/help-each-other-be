@@ -74,7 +74,7 @@ const getSinglePost = async (postId) => {
   const queryConfig = {
     include: [{
       model: User,
-      attributes: ['id', 'username', 'location']
+      attributes: ['id', 'username', 'location', 'avatar']
     }],
     where: {
       id: postId

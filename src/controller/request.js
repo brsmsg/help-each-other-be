@@ -3,14 +3,24 @@ const {
   SuccessModel
 } = require("../model/ResModel");
 const {
+  getSinglePost
+} = require("../service/post");
+const {
   addRequest,
   getStatus,
   getRequestsNum,
   getAllRequest,
-  changeStatus
+  changeStatus,
 } = require('../service/request')
 
 const applyRequest = async (postId, applyBody) => {
+  const num = await getRequestsNum(postId);
+  const {
+    maxMembers
+  } = await getSinglePost(postId);
+  if (num === maxMembers) {
+    return new ErrorModel("该项目已经申请满");
+  }
   const request = await addRequest({
     postId,
     ...applyBody
@@ -71,5 +81,5 @@ module.exports = {
   requestStatus,
   getAcceptNum,
   getApplyList,
-  handleApply
+  handleApply,
 }

@@ -7,6 +7,10 @@ const {
   updateProfile
 } = require('../controller/users')
 const {
+  getContacts,
+  getAdminMessages
+} = require('../controller/message')
+const {
   JWT_SECRET_KEY
 } = require('../config/secretKeys')
 const jwt = require('jsonwebtoken')
@@ -80,5 +84,14 @@ router.post('/update', async (ctx, next) => {
   ctx.body = await updateProfile(data);
 })
 
+router.get('/getContact/:id', async (ctx, next) => {
+  const userId = ctx.params.id;
+  ctx.body = await getContacts(userId);
+})
+
+router.get('/getAdminMessgae/:id', async (ctx, next) => {
+  const userId = ctx.params.id;
+  ctx.body = await getAdminMessages(userId)
+})
 
 module.exports = router;
