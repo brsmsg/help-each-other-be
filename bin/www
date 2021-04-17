@@ -7,6 +7,9 @@
 var app = require('../src/app');
 var debug = require('debug')('demo:server');
 var http = require('http');
+const {
+  createMsg
+} = require('../src/service/message');
 
 /**
  * Get port from environment and store in Express.
@@ -25,12 +28,31 @@ let io = require('socket.io')(server, {
   cors: true
 });
 
+const map = new Map();
 io.on('connection', function (socket) {
-  socket.emit('news', {
-    hello: 'world'
-  });
-  socket.on('my other event', function (data) {
-    console.log(data);
+  console.log("connect success");
+
+  socket.on('login', function (data) {
+    map[data] = socket.id;
+  })
+
+  socket.on('message', async function (data) {
+    const {
+      receiver,
+      message,
+      user
+    } = data;
+    const receiverSocket = map[receiver.id];
+    const senderId = user.id;
+    const receiverId = receiver.id;
+    const content = message.content;
+    createMsg({
+      senderId,
+      receiverId,
+      content,
+      createdAt: data.date
+    })
+    io.to(receiverSocket).emit("message", data);
   })
 })
 /**

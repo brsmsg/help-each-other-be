@@ -67,7 +67,6 @@ const queryAdminMessages = async (userId) => {
   if (!result) {
     return null;
   }
-  console.log(result);
   return result.map((item) => item.dataValues);
 }
 
@@ -92,11 +91,20 @@ const queryHistory = async (id1, id2) => {
   return result.map((item) => item.dataValues);
 }
 
-
+const createMsg = async (message) => {
+  const result = await Message.create({
+    sender_id: message.senderId,
+    receiver_id: message.receiverId,
+    content: message.content,
+    createdAt: message.createdAt
+  });
+  return result
+}
 
 module.exports = {
   queryContacts,
   queryMessages,
   queryAdminMessages,
-  queryHistory
+  queryHistory,
+  createMsg
 }

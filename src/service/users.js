@@ -64,8 +64,6 @@ const updateUser = async (body) => {
     id,
     data
   } = body;
-  console.log("data", data)
-  console.log("id", id)
   const res = await User.update(data, {
     where: {
       id
