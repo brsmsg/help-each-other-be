@@ -34,6 +34,21 @@ const getUserInfo = async (username, password) => {
   return result.dataValues;
 }
 
+const getUserById = async (id) => {
+  const result = await User.findOne({
+    attributes: ['id', 'username', 'gender', 'avatar', 'category', 'location'],
+    where: {
+      id
+    }
+  })
+  if (result == null) {
+    // 未找到
+    return result
+  }
+
+  return result.dataValues;
+}
+
 /**
  * 创建用户
  * @param {string} username 用户名
@@ -62,5 +77,6 @@ const updateUser = async (body) => {
 module.exports = {
   getUserInfo,
   createUser,
-  updateUser
+  updateUser,
+  getUserById
 }
