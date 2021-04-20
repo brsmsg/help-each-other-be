@@ -3,6 +3,9 @@ const {
   SuccessModel
 } = require("../model/ResModel");
 const {
+  createMsg
+} = require("../service/message");
+const {
   getSinglePost
 } = require("../service/post");
 const {
@@ -11,7 +14,10 @@ const {
   getRequestsNum,
   getAllRequest,
   changeStatus,
-} = require('../service/request')
+} = require('../service/request');
+const {
+  getUserById
+} = require("../service/users");
 
 const applyRequest = async (postId, applyBody) => {
   const num = await getRequestsNum(postId);
@@ -25,7 +31,33 @@ const applyRequest = async (postId, applyBody) => {
     postId,
     ...applyBody
   });
+  console.log("applyBody", applyBody);
+  console.log("applyBody", request);
   if (request) {
+    // const result = await Message.create({
+    //   sender_id: message.senderId,
+    //   receiver_id: message.receiverId,
+    //   content: message.content,
+    //   createdAt: message.createdAt,
+    //   is_check: false
+    // });
+    // 数据库写两条消息
+    // createMsg({
+    //   senderId,
+    //   receiverId,
+    //   content,
+    //   createdAt: data.date
+    // })
+    const user = await getUserById(applyBody.applicantId);
+    const post = await getSinglePost(postId);
+    console.log(post.user.dataValues);
+    const msg1 = {
+      senderId: 999,
+      receiverId: post.user.dataValues.id,
+      content: `用户 ${user.username} 向您的帖子 ${post.title} 发了一条请求&postId=${post.id}`,
+
+    }
+    await createMsg(msg1)
     return new SuccessModel(request);
   }
   return new ErrorModel("发起请求失败");

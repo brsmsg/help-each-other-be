@@ -36,7 +36,7 @@ const queryMessages = async (senderId, receiverId, tag) => {
       }]
     },
     order: [
-      ['createdAt', 'DESC']
+      ['updatedAt', 'DESC']
     ]
   }
   let userInfo;
@@ -66,7 +66,12 @@ const queryAdminMessages = async (userId) => {
   if (!result) {
     return null;
   }
-  return result.map((item) => item.dataValues);
+  return result.map((item) => {
+    const content = item.dataValues.content;
+    const postId = content.split('&')[1].split('=')[1];
+    item.dataValues.postId = postId;
+    return item.dataValues
+  });
 }
 
 const queryHistory = async (id1, id2) => {
