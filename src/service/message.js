@@ -3,7 +3,6 @@ const {
 } = require('sequelize')
 const {
   Message,
-  User
 } = require("../db/model")
 const {
   getUserById
@@ -96,9 +95,40 @@ const createMsg = async (message) => {
     sender_id: message.senderId,
     receiver_id: message.receiverId,
     content: message.content,
-    createdAt: message.createdAt
+    createdAt: message.createdAt,
+    is_check: false
   });
   return result
+}
+
+const getUncheckedMsg = async (senderId, receiverId) => {
+  const result = await Message.findAll({
+    where: {
+      sender_id: senderId,
+      receiver_id: receiverId,
+      is_check: false
+    }
+  })
+  if (result)
+    return {
+      id: senderId,
+      length: result.length
+    };
+  return null;
+}
+
+const checkMsg = async (senderId, receiverId) => {
+  const result = await Message.update({
+    is_check: true
+  }, {
+    where: {
+      sender_id: senderId,
+      receiver_id: receiverId,
+      is_check: false
+    }
+  })
+  if (result) return result;
+  return null;
 }
 
 module.exports = {
@@ -106,5 +136,7 @@ module.exports = {
   queryMessages,
   queryAdminMessages,
   queryHistory,
-  createMsg
+  createMsg,
+  getUncheckedMsg,
+  checkMsg
 }

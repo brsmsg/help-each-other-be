@@ -9,7 +9,9 @@ const {
 const {
   getContacts,
   getAdminMessages,
-  getMsgHistory
+  getMsgHistory,
+  getUncheckedMsgNum,
+  checkMessages
 } = require('../controller/message')
 const {
   JWT_SECRET_KEY
@@ -102,6 +104,24 @@ router.get('/chatMsg', async (ctx, next) => {
     id2
   } = params;
   ctx.body = await getMsgHistory(id1, id2);
+})
+
+router.get('/unCheckedMsg', async (ctx, next) => {
+  const params = ctx.request.query;
+  const {
+    id1,
+    id2
+  } = params;
+  ctx.body = await getUncheckedMsgNum(id1, id2)
+})
+
+router.get('/checkMessages', async (ctx, next) => {
+  const params = ctx.request.query;
+  const {
+    id1,
+    id2
+  } = params;
+  ctx.body = await checkMessages(id1, id2);
 })
 
 module.exports = router;

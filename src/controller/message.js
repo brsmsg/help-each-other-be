@@ -2,7 +2,9 @@ const {
   queryContacts,
   queryMessages,
   queryAdminMessages,
-  queryHistory
+  queryHistory,
+  getUncheckedMsg,
+  checkMsg
 } = require('../service/message')
 const {
   SuccessModel,
@@ -26,14 +28,28 @@ const getContacts = async (userId) => {
     });
     idSet.delete(999)
     const promiseList = [];
+    const lengthList = [];
     idSet.forEach((item) => {
       promiseList.push(queryMessages(userId, item, "latest"))
+      lengthList.push(getUncheckedMsg(item, userId, "latest"))
     })
 
     const data = await Promise.all(promiseList);
+    const msg = await Promise.all(lengthList);
+    data.forEach((item) => {
+      item.forEach((contact) => {
+        contact.length = 0;
+        msg.forEach((msg) => {
+          console.log(msg)
+          if (contact.user.id === msg.id) {
+            contact.length = msg.length
+          }
+        })
+      })
+    })
     return new SuccessModel(data.map(item => item[0]));
   }
-  return new ErrorModel('查询失败')
+  return new ErrorModel({})
 }
 
 const getAdminMessages = async (userId) => {
@@ -68,8 +84,24 @@ const getMsgHistory = async (id1, id2) => {
   return new SuccessModel(data);
 }
 
+const getUncheckedMsgNum = async (senderId, receiverId) => {
+  const result = await getUncheckedMsg(senderId, receiverId);
+  if (result) {
+    return new SuccessModel(result);
+  }
+  return new ErrorModel();
+}
+
+const checkMessages = async (id1, id2) => {
+  const result = await checkMsg(id1, id2);
+  if (result) return new SuccessModel(result);
+  return new ErrorModel({});
+}
+
 module.exports = {
   getContacts,
   getAdminMessages,
-  getMsgHistory
+  getMsgHistory,
+  getUncheckedMsgNum,
+  checkMessages
 }
