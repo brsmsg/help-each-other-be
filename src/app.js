@@ -12,6 +12,7 @@ const jwtKoa = require('koa-jwt')
 const index = require('./routes/index')
 const usersRouter = require('./routes/users')
 const postRouter = require('./routes/posts');
+const adminRouter = require('./routes/admin')
 
 const {
   JWT_SECRET_KEY
@@ -79,6 +80,7 @@ app.use(async (ctx, next) => {
 app.use(index.routes(), index.allowedMethods());
 app.use(usersRouter.routes(), usersRouter.allowedMethods());
 app.use(postRouter.routes(), postRouter.allowedMethods());
+app.use(adminRouter.routes(), adminRouter.allowedMethods());
 
 // error-handling
 app.on('error', (err, ctx) => {
