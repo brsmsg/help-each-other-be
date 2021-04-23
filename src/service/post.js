@@ -131,10 +131,26 @@ const addViews = async (postId) => {
   })
 }
 
+const changePostStatus = async ({
+  postId,
+  newStatus
+}) => {
+  const result = await Post.update({
+    status: newStatus
+  }, {
+    where: {
+      id: postId
+    }
+  })
+  if (!result) return null;
+  return result;
+}
+
 module.exports = {
   getPosts,
   getSinglePost,
   createPost,
   countPost,
-  addViews
+  addViews,
+  changePostStatus
 }

@@ -26,7 +26,7 @@ const Post = seq.define('post', {
   },
   status: {
     type: INTEGER,
-    comment: '帖子状态'
+    comment: '帖子状态 0:待审核 1:审核通过 99:审核驳回'
   },
   reward: {
     type: FLOAT,

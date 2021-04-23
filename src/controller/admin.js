@@ -4,8 +4,14 @@ const {
 } = require('../model/ResModel');
 const {
   queryAllUser,
-  queryAllPost
+  queryAllPost,
 } = require('../service/admin')
+
+
+const {
+  changePostStatus
+} = require('../service/post')
+
 
 const getAllUser = async () => {
   const result = await queryAllUser();
@@ -25,7 +31,20 @@ const getAllPost = async () => {
   }
 }
 
+const auditPost = async ({
+  postId,
+  isApprove
+}) => {
+  const result = await changePostStatus({
+    postId,
+    newStatus: isApprove ? 1 : 99
+  });
+  if (result) return new SuccessModel(result);
+  return new ErrorModel({})
+}
+
 module.exports = {
   getAllUser,
-  getAllPost
+  getAllPost,
+  auditPost
 }
