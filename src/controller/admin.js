@@ -10,17 +10,30 @@ const {
 
 const {
   changePostStatus
-} = require('../service/post')
+} = require('../service/post');
+const {
+  getUserById
+} = require('../service/users');
 
 
-const getAllUser = async () => {
-  const result = await queryAllUser();
+const getAllUser = async (params) => {
+  const result = await queryAllUser(params);
   if (!result) return new ErrorModel({});
   return new SuccessModel(result);
 }
 
-const getAllPost = async () => {
-  const result = await queryAllPost();
+const getAllPost = async (params) => {
+  const result = await queryAllPost(params);
+  const userPromiseList = [];
+  result.forEach((item) => {
+    userPromiseList.push(getUserById(item.creator_id));
+  })
+  const users = await Promise.all(userPromiseList);
+  result.forEach((post) => {
+    users.forEach((user) => {
+      post.user = user.username
+    })
+  })
   if (!result) return {
     success: false,
   }
