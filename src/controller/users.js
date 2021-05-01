@@ -7,7 +7,9 @@ const {
 const {
   getUserInfo,
   createUser,
-  updateUser
+  updateUser,
+  queryTopUsers,
+  getUserById
 } = require('../service/users')
 const {
   registerUserNameExistInfo,
@@ -105,9 +107,22 @@ const saveImage = async (file) => {
 
 const updateProfile = async (data) => {
   const result = await updateUser(data);
-  console.log(result);
   if (result[0] === 1) return new SuccessModel("success")
-  else return new ErrorModel("更新失败")
+  else return new ErrorModel({
+    message: "更新失败"
+  })
+}
+
+const getTopUsers = async () => {
+  const result = await queryTopUsers();
+  if (result) return new SuccessModel(result);
+  else return new ErrorModel({})
+}
+
+const userInfo = async (id) => {
+  const result = await getUserById(id);
+  if (!result) return null;
+  return new SuccessModel(result)
 }
 
 module.exports = {
@@ -116,5 +131,7 @@ module.exports = {
   login,
   getUserStat,
   saveImage,
-  updateProfile
+  updateProfile,
+  getTopUsers,
+  userInfo
 }

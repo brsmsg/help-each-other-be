@@ -1,5 +1,9 @@
 const seq = require('../seq');
-const { STRING, DECIMAL } = require('../types')
+const {
+  STRING,
+  DECIMAL,
+  INTEGER
+} = require('../types')
 
 const User = seq.define('user', {
   username: {
@@ -35,6 +39,16 @@ const User = seq.define('user', {
   location: {
     type: STRING,
     comment: '位置'
+  },
+  postCount: {
+    type: INTEGER,
+    comment: '发帖数量',
+    defaultValue: 0
+  },
+  helpCount: {
+    type: INTEGER,
+    comment: '帮助他人次数',
+    defaultValue: 0
   }
 })
 

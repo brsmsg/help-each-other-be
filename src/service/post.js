@@ -64,9 +64,9 @@ const getPosts = async (filter) => {
   const res = result.map((item) => {
     return item.dataValues
   });
-  res.forEach((item) => {
-    item.createdAt = item.createdAt.toLocaleTimeString()
-  })
+  // res.forEach((item) => {
+  //   item.createdAt = item.createdAt.toLocaleTimeString()
+  // })
   return res;
 }
 
@@ -74,7 +74,7 @@ const getSinglePost = async (postId) => {
   const queryConfig = {
     include: [{
       model: User,
-      attributes: ['id', 'username', 'location', 'avatar']
+      attributes: ['id', 'username', 'location', 'avatar', 'phone']
     }],
     where: {
       id: postId
@@ -82,8 +82,8 @@ const getSinglePost = async (postId) => {
   }
   const result = await Post.findOne(queryConfig);
   if (result === null) return result;
-  let res = result.dataValues;
-  res.createdAt = res.createdAt.toLocaleTimeString()
+  // let res = result.dataValues;
+  // res.createdAt = res.createdAt.toLocaleTimeString()
   return result.dataValues;
 }
 

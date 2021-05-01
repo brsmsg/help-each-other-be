@@ -16,7 +16,8 @@ const {
   changeStatus,
 } = require('../service/request');
 const {
-  getUserById
+  getUserById,
+  changeUserRecord
 } = require("../service/users");
 
 const applyRequest = async (postId, applyBody) => {
@@ -48,6 +49,7 @@ const applyRequest = async (postId, applyBody) => {
     //   content,
     //   createdAt: data.date
     // })
+    await changeUserRecord(applyBody.applicantId, "help")
     const user = await getUserById(applyBody.applicantId);
     const post = await getSinglePost(postId);
     console.log(post.user.dataValues);

@@ -4,14 +4,16 @@ const {
   login,
   getUserStat,
   saveImage,
-  updateProfile
+  updateProfile,
+  getTopUsers,
+  userInfo
 } = require('../controller/users')
 const {
   getContacts,
   getAdminMessages,
   getMsgHistory,
   getUncheckedMsgNum,
-  checkMessages
+  checkMessages,
 } = require('../controller/message')
 const {
   JWT_SECRET_KEY
@@ -123,5 +125,15 @@ router.get('/checkMessages', async (ctx, next) => {
   } = params;
   ctx.body = await checkMessages(id1, id2);
 })
+
+router.get('/topUsers', async (ctx, next) => {
+  ctx.body = await getTopUsers();
+})
+
+
+router.get('/userInfo/:id', async (ctx, next) => {
+  ctx.body = await userInfo(ctx.params.id);
+})
+
 
 module.exports = router;

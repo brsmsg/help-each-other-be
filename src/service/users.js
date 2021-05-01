@@ -72,9 +72,43 @@ const updateUser = async (body) => {
   return res;
 }
 
+const changeUserRecord = async (userId, type) => {
+  if (type === "post") {
+    const res = await User.increment({
+      postCount: 1
+    }, {
+      where: {
+        id: userId
+      }
+    })
+  } else {
+    const res = await User.increment({
+      helpCount: 1
+    }, {
+      where: {
+        id: userId
+      }
+    })
+  }
+}
+
+const queryTopUsers = async () => {
+  const result = await User.findAll({
+    limit: 5,
+    order: [
+      ["postCount", "DESC"]
+    ]
+  })
+  console.log(result.map((item) => item.dataValues));
+  if (!result) return null;
+  return result.map((item) => item.dataValues).filter(item => item.id !== 999);
+}
+
 module.exports = {
   getUserInfo,
   createUser,
   updateUser,
-  getUserById
+  getUserById,
+  queryTopUsers,
+  changeUserRecord
 }

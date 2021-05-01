@@ -8,7 +8,7 @@ const {
   getPosts,
   getSinglePost,
   createPost,
-  addViews
+  addViews,
 } = require("../service/post")
 const {
   getPostFailInfo
@@ -16,6 +16,9 @@ const {
 const {
   getRequestsNum
 } = require('../service/request')
+const {
+  changeUserRecord
+} = require('../service/users');
 
 const fetchPosts = async (filter) => {
   const posts = await getPosts(filter);
@@ -55,6 +58,7 @@ const saveImage = async (file) => {
 
 const newPost = async (postBody) => {
   const post = await createPost(postBody);
+  await changeUserRecord(postBody.creator, "post");
   if (post) {
     return new SuccessModel(post);
   } else {
