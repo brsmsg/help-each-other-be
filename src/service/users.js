@@ -55,7 +55,10 @@ const getUserById = async (id) => {
  * 。。。
  */
 const createUser = async (userObj) => {
-  const result = await User.create(userObj)
+  const result = await User.create({
+    ...userObj,
+    avatar: '/uploads/avatar/default.png'
+  })
   return result.dataValues;
 }
 
