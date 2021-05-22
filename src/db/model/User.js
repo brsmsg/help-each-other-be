@@ -24,7 +24,6 @@ const User = seq.define('user', {
   },
   phone: {
     type: STRING,
-    unique: true,
     allowNull: false,
     comment: '手机号'
   },
