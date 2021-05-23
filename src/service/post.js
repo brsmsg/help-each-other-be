@@ -38,7 +38,7 @@ const getPosts = async (filter) => {
         creator_id: userId
       })
     }
-    if (type === 'popular') {
+    if (type === 'popular' || !type) {
       Object.assign(queryConfig, {
         order: [
           ['views', 'DESC']
