@@ -9,12 +9,15 @@ const {
   getSinglePost,
   createPost,
   addViews,
+  end,
+  changePostStatus
 } = require("../service/post")
 const {
   getPostFailInfo
 } = require("../model/ErrorInfo");
 const {
-  getRequestsNum
+  getRequestsNum,
+  changeStatus
 } = require('../service/request')
 const {
   changeUserRecord
@@ -72,10 +75,20 @@ const addViewNum = async (postId) => {
   return new ErrorModel('error')
 }
 
+const endPost = async (postId) => {
+  const result = await changePostStatus({
+    postId,
+    newStatus: 3
+  });
+  if (result) return new SuccessModel;
+  return new ErrorModel()
+}
+
 module.exports = {
   fetchPosts,
   fetchSinglePost,
   saveImage,
   newPost,
-  addViewNum
+  addViewNum,
+  endPost
 }

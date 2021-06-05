@@ -105,7 +105,8 @@ const createPost = async (post) => {
     images: images ? images.join('&') : null,
     creator_id: creator,
     views: 0,
-    maxMembers
+    maxMembers,
+    status: 0
   })
   if (!result) return result;
   return result.dataValues;
@@ -144,6 +145,11 @@ const changePostStatus = async ({
   })
   if (!result) return null;
   return result;
+}
+
+const end = async (postId) => {
+  const reuslt = await Post.update({
+  })
 }
 
 module.exports = {
