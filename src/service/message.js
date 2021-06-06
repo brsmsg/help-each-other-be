@@ -86,7 +86,7 @@ const queryHistory = async (id1, id2) => {
       }]
     },
     order: [
-      ['createdAt']
+      ['createdAt', 'ASC'],
     ],
   })
   if (!result) {
